@@ -1,0 +1,212 @@
+{
+    "last": {
+        "gameId": 5104,
+        "drawId": 2390,
+        "drawTime": 1642363200000,
+        "status": "results",
+        "drawBreak": 1800000,
+        "visualDraw": 2390,
+        "pricePoints": {
+            "amount": 0.5
+        },
+        "winningNumbers": {
+            "list": [
+                1,
+                29,
+                26,
+                24,
+                17
+            ],
+            "bonus": [
+                6
+            ]
+        },
+        "prizeCategories": [
+            {
+                "id": 1,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 356871.53,
+                "jackpot": 748954.15,
+                "fixed": 0.0,
+                "categoryType": 0,
+                "gameType": "Normal",
+                "minimumDistributed": 0.0
+            },
+            {
+                "id": 2,
+                "divident": 22575.97,
+                "winners": 4,
+                "distributed": 55178.93,
+                "jackpot": 35124.97,
+                "fixed": 0.0,
+                "categoryType": 0,
+                "gameType": "Normal"
+            },
+            {
+                "id": 3,
+                "divident": 2500.0,
+                "winners": 20,
+                "distributed": 50000.0,
+                "jackpot": 0.0,
+                "fixed": 2500.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 4,
+                "divident": 50.0,
+                "winners": 326,
+                "distributed": 16300.0,
+                "jackpot": 0.0,
+                "fixed": 50.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 5,
+                "divident": 50.0,
+                "winners": 816,
+                "distributed": 40800.0,
+                "jackpot": 0.0,
+                "fixed": 50.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 6,
+                "divident": 2.0,
+                "winners": 16634,
+                "distributed": 33268.0,
+                "jackpot": 0.0,
+                "fixed": 2.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 7,
+                "divident": 2.0,
+                "winners": 10341,
+                "distributed": 20682.0,
+                "jackpot": 0.0,
+                "fixed": 2.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 8,
+                "divident": 1.5,
+                "winners": 49233,
+                "distributed": 73849.5,
+                "jackpot": 0.0,
+                "fixed": 1.5,
+                "categoryType": 1,
+                "gameType": "Normal"
+            }
+        ],
+        "wagerStatistics": {
+            "columns": 2866438,
+            "wagers": 503579,
+            "addOn": []
+        }
+    },
+    "active": {
+        "gameId": 5104,
+        "drawId": 2391,
+        "drawTime": 1642536000000,
+        "status": "active",
+        "drawBreak": 1800000,
+        "visualDraw": 2391,
+        "pricePoints": {
+            "amount": 0.5
+        },
+        "prizeCategories": [
+            {
+                "id": 1,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 1105825.68,
+                "fixed": 0.0,
+                "categoryType": 0,
+                "gameType": "Normal",
+                "minimumDistributed": 1300000.0
+            },
+            {
+                "id": 2,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 0.0,
+                "fixed": 0.0,
+                "categoryType": 0,
+                "gameType": "Normal"
+            },
+            {
+                "id": 3,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 0.0,
+                "fixed": 2500.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 4,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 0.0,
+                "fixed": 50.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 5,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 0.0,
+                "fixed": 50.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 6,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 0.0,
+                "fixed": 2.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 7,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 0.0,
+                "fixed": 2.0,
+                "categoryType": 1,
+                "gameType": "Normal"
+            },
+            {
+                "id": 8,
+                "divident": 0.0,
+                "winners": 0,
+                "distributed": 0.0,
+                "jackpot": 0.0,
+                "fixed": 1.5,
+                "categoryType": 1,
+                "gameType": "Normal"
+            }
+        ],
+        "wagerStatistics": {
+            "columns": 0,
+            "wagers": 0,
+            "addOn": []
+        }
+    }
+} 
