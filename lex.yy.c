@@ -1000,14 +1000,15 @@ char *yytext;
 #include <string.h>
 extern int token_numbers[2][10];            // counts tokens in last_scope and active_scope
 extern void listIntegerInterval(int val);   //defined in parser.y 
+extern int prizeCatElem[2][8];              //counts elements in prizeCategory
 int lineno = 1;                             //line counter for error recovery
 int value;                                  //value of last integer read
 int listflag = 0;                           // is 1 when reading list 
 int prizeCatflag = 0;                       // is 1 when reading prizeCategory
 int contentflag = 0;                        // is 1 when reading content
 
-#line 1009 "lex.yy.c"
 #line 1010 "lex.yy.c"
+#line 1011 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -1224,13 +1225,13 @@ YY_DECL
 		}
 
 	{
-#line 31 "lexer.l"
+#line 32 "lexer.l"
 
 
 
 
 
-#line 1233 "lex.yy.c"
+#line 1234 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1289,296 +1290,296 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 36 "lexer.l"
+#line 37 "lexer.l"
 {return T_L_BRACE;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 37 "lexer.l"
+#line 38 "lexer.l"
 {return T_R_BRACE;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 38 "lexer.l"
+#line 39 "lexer.l"
 {return T_L_BRACKET;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 39 "lexer.l"
+#line 40 "lexer.l"
 {return T_R_BRACKET;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 40 "lexer.l"
+#line 41 "lexer.l"
 {return T_DOT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 41 "lexer.l"
+#line 42 "lexer.l"
 {return T_QUOTATIONS;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 42 "lexer.l"
+#line 43 "lexer.l"
 {return T_ASSIGNMENT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 43 "lexer.l"
+#line 44 "lexer.l"
 {return T_COMMA;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 45 "lexer.l"
+#line 46 "lexer.l"
 {return T_LAST;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 46 "lexer.l"
+#line 47 "lexer.l"
 {token_numbers[1][0]++;return T_GAMEID;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 47 "lexer.l"
+#line 48 "lexer.l"
 {token_numbers[1][1]++;return T_DRAWID;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 48 "lexer.l"
+#line 49 "lexer.l"
 {token_numbers[1][2]++;return T_DRAWTIME;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 49 "lexer.l"
+#line 50 "lexer.l"
 {token_numbers[1][3]++;return T_STATUS;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 50 "lexer.l"
+#line 51 "lexer.l"
 {token_numbers[1][4]++;return T_DRAWBREAK;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 52 "lexer.l"
 {token_numbers[1][5]++;return T_VISUALDRAW;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 52 "lexer.l"
+#line 53 "lexer.l"
 {token_numbers[1][6]++;return T_PRICEPOINTS;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 53 "lexer.l"
+#line 54 "lexer.l"
 {return T_AMOUNT;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 54 "lexer.l"
+#line 55 "lexer.l"
 {return T_BONUS;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 55 "lexer.l"
+#line 56 "lexer.l"
 {token_numbers[1][7]++;prizeCatflag=1;return T_PRIZECATEGORIES;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 56 "lexer.l"
-{return T_ID;}
+#line 57 "lexer.l"
+{prizeCatElem[1][0]++; return T_ID;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 57 "lexer.l"
-{return T_DIVIDENT;}
+#line 58 "lexer.l"
+{prizeCatElem[1][1]++; return T_DIVIDENT;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 58 "lexer.l"
-{return T_WINNERS;}
+#line 59 "lexer.l"
+{prizeCatElem[1][2]++; return T_WINNERS;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 59 "lexer.l"
-{return T_DISTRIBUTED;}
+#line 60 "lexer.l"
+{prizeCatElem[1][3]++; return T_DISTRIBUTED;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 60 "lexer.l"
-{return T_JACKPOT;}
+#line 61 "lexer.l"
+{prizeCatElem[1][4]++; return T_JACKPOT;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 61 "lexer.l"
-{return T_FIXED;}
+#line 62 "lexer.l"
+{prizeCatElem[1][5]++; return T_FIXED;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 62 "lexer.l"
-{return T_CATEGORYTYPE;}
+#line 63 "lexer.l"
+{prizeCatElem[1][6]++; return T_CATEGORYTYPE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 63 "lexer.l"
-{return T_GAMETYPE;}
+#line 64 "lexer.l"
+{prizeCatElem[1][7]++; return T_GAMETYPE;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 64 "lexer.l"
+#line 65 "lexer.l"
 {return T_MINIMUMDISTRIBUTED;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 65 "lexer.l"
+#line 66 "lexer.l"
 {token_numbers[1][8]++; return T_WAGERSTATISTICS;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 66 "lexer.l"
+#line 67 "lexer.l"
 {return T_COLUMNS;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 67 "lexer.l"
+#line 68 "lexer.l"
 {return T_WAGERS;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 68 "lexer.l"
+#line 69 "lexer.l"
 {return T_ADDON;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 69 "lexer.l"
+#line 70 "lexer.l"
 {return T_ACTIVE;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 70 "lexer.l"
+#line 71 "lexer.l"
 {contentflag=1;return T_CONTENT;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 71 "lexer.l"
+#line 72 "lexer.l"
 {token_numbers[1][9]++;return T_WINNINGNUMBERS;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 72 "lexer.l"
+#line 73 "lexer.l"
 {listflag=1;return T_LIST;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 73 "lexer.l"
+#line 74 "lexer.l"
 {return T_TOTALPAGES;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 74 "lexer.l"
+#line 75 "lexer.l"
 {return T_TOTALELEMENTS;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 75 "lexer.l"
+#line 76 "lexer.l"
 {return T_NUMBEROFELEMEMENTS;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 76 "lexer.l"
+#line 77 "lexer.l"
 {return T_SORT;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 77 "lexer.l"
+#line 78 "lexer.l"
 {return T_DIRECTION;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 78 "lexer.l"
+#line 79 "lexer.l"
 {return T_BOOLEAN;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 79 "lexer.l"
+#line 80 "lexer.l"
 {return T_BOOLEAN;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 80 "lexer.l"
+#line 81 "lexer.l"
 {return T_PROPERTY;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 81 "lexer.l"
+#line 82 "lexer.l"
 {return T_IGNORE_CASE;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 83 "lexer.l"
 {return T_NULL_HANDLING;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 83 "lexer.l"
+#line 84 "lexer.l"
 {return T_DESCENDING;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 84 "lexer.l"
+#line 85 "lexer.l"
 {return T_ASCENDING;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 85 "lexer.l"
+#line 86 "lexer.l"
 {return T_FIRST;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 86 "lexer.l"
+#line 87 "lexer.l"
 {return T_SIZE;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 87 "lexer.l"
+#line 88 "lexer.l"
 {return T_NUMBER;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 89 "lexer.l"
+#line 90 "lexer.l"
 {value = atoi(yytext);if(listflag==1)listIntegerInterval(value);return T_U_INT;} /* set value equal to integer parsed and if reading "list" make sure it is in [1,45] */
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 90 "lexer.l"
+#line 91 "lexer.l"
 {return T_U_FLOAT;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 91 "lexer.l"
+#line 92 "lexer.l"
 {return T_FLOAT;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 92 "lexer.l"
+#line 93 "lexer.l"
 {return T_JSON_STRING;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 93 "lexer.l"
+#line 94 "lexer.l"
 {return T_SIGN;}
 	YY_BREAK
 case 57:
 /* rule 57 can match eol */
 YY_RULE_SETUP
-#line 94 "lexer.l"
+#line 95 "lexer.l"
 {lineno++;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 98 "lexer.l"
+#line 99 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1581 "lex.yy.c"
+#line 1582 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2583,7 +2584,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 98 "lexer.l"
+#line 99 "lexer.l"
 
 
 

@@ -7,6 +7,7 @@
 #include <string.h>
 extern int token_numbers[2][10];            // counts tokens in last_scope and active_scope
 extern void listIntegerInterval(int val);   //defined in parser.y 
+extern int prizeCatElem[2][8];              //counts elements in prizeCategory
 int lineno = 1;                             //line counter for error recovery
 int value;                                  //value of last integer read
 int listflag = 0;                           // is 1 when reading list 
@@ -53,15 +54,15 @@ newline                     [\n]
 "amount"                    {return T_AMOUNT;}
 "bonus"                     {return T_BONUS;}
 "prizeCategories"           {token_numbers[1][7]++;prizeCatflag=1;return T_PRIZECATEGORIES;}
-"id"                        {return T_ID;}
-"divident"                  {return T_DIVIDENT;}
-"winners"                   {return T_WINNERS;}
-"distributed"               {return T_DISTRIBUTED;}
-"jackpot"                   {return T_JACKPOT;}
-"fixed"                     {return T_FIXED;}
-"categoryType"              {return T_CATEGORYTYPE;}
-"gameType"                  {return T_GAMETYPE;}
-"minimumDIstributed"        {return T_MINIMUMDISTRIBUTED;}
+"id"                        {prizeCatElem[1][0]++; return T_ID;}
+"divident"                  {prizeCatElem[1][1]++; return T_DIVIDENT;}
+"winners"                   {prizeCatElem[1][2]++; return T_WINNERS;}
+"distributed"               {prizeCatElem[1][3]++; return T_DISTRIBUTED;}
+"jackpot"                   {prizeCatElem[1][4]++; return T_JACKPOT;}
+"fixed"                     {prizeCatElem[1][5]++; return T_FIXED;}
+"categoryType"              {prizeCatElem[1][6]++; return T_CATEGORYTYPE;}
+"gameType"                  {prizeCatElem[1][7]++; return T_GAMETYPE;}
+"minimumDistributed"        {return T_MINIMUMDISTRIBUTED;}
 "wagerstatistics"           {token_numbers[1][8]++; return T_WAGERSTATISTICS;}
 "columns"                   {return T_COLUMNS;}
 "wagers"                    {return T_WAGERS;}

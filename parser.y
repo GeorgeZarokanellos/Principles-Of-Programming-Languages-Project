@@ -3,7 +3,7 @@
 #include <string.h>
 #define EXIT_FAILURE    -1   
 void yyerror(const char *s);
-void gameCatLimit(int counter);
+void prizeCatLimit(int counter);
 void validateGameId(int val);
 void listIntegerCountLimit(int counter);
 void listIntegerInterval(int val);
@@ -12,6 +12,7 @@ void countActiveElements();
 void winningNElements();
 void bonusElements();
 void counterChecker();
+void prizeCatElements();
 extern FILE *yyin;
 extern FILE *yyout;
 extern int yylex();
@@ -20,7 +21,8 @@ extern int value;                         //stores the value of last read intege
 extern int listflag;                      //1 when reading a "list" 
 extern int prizeCatflag;                  //1 when reading a "prizeCategories"
 extern int contentflag;                   //1 when reading a "content"
-int token_numbers[2][10];                 //an array of tokens we expect to read in no particular order
+int token_numbers[2][10];                 //an array of tokens we expect to read in no particular order in last, active and content
+int prizeCatElem[2][8];                   //an array of tokens we expect to read in no particular order in prizeCategories
 int minDistFlg = 0;                       //1 when reading "minimumDistributed"
 int prCatCntr=0;                          //counts json objects in "prizeCategories"
 int errors = 0;                           //counts errors encountered
@@ -94,12 +96,12 @@ int intArrCounter = 0;                    //counts integers in an array
 %%
 
 
-program:                T_L_BRACE last T_COMMA active T_R_BRACE         //included
+program:                T_L_BRACE last T_COMMA active T_R_BRACE        
                   |     T_L_BRACE order T_R_BRACE
                   |     error                
                   ;                                                                                               
 
-last_scope:             expr T_COMMA last_scope       //included
+last_scope:             expr T_COMMA last_scope       
                   |     expr    
                   |     expr error last_scope
                   ;
@@ -107,19 +109,19 @@ last_scope:             expr T_COMMA last_scope       //included
 
 last:                   T_QUOTATIONS T_LAST T_QUOTATIONS T_ASSIGNMENT T_L_BRACE last_scope T_R_BRACE        {countAllElements();}                                          
                   |     T_QUOTATIONS T_LAST T_QUOTATIONS T_ASSIGNMENT T_BOOLEAN 
-                  |     error    //included
+                  |     error    
                   ;
 
 order:                  content T_COMMA total_pages T_COMMA total_elements T_COMMA last T_COMMA number_of_elements T_COMMA sort T_COMMA first T_COMMA size T_COMMA number
-                  |     error                         
+                  |     error                          
                   ;
 
 
 active:                 T_QUOTATIONS T_ACTIVE T_QUOTATIONS T_ASSIGNMENT T_L_BRACE active_scope T_R_BRACE    {countActiveElements();}
-                  |     error    //included     
+                  |     error         
                   ;
 
-active_scope:     |     expr T_COMMA active_scope                 //included
+active_scope:     |     expr T_COMMA active_scope                 
                   |     expr
                   |     expr error active_scope
                   ;     
@@ -129,92 +131,92 @@ wager_objects:          columns T_COMMA wagers T_COMMA add_on
                   ;
 
 columns:                T_QUOTATIONS T_COLUMNS T_QUOTATIONS T_ASSIGNMENT T_U_INT     
-                  |     error       //check
+                  |     error       
                   ;
 
 wagers:                 T_QUOTATIONS T_WAGERS T_QUOTATIONS T_ASSIGNMENT T_U_INT
                   |     error
-                  ;           //to be continued
+                  ;           
 
 add_on:           |     T_QUOTATIONS T_ADDON T_QUOTATIONS T_ASSIGNMENT T_L_BRACKET T_R_BRACKET 
-                  |     error       //to becontinued
+                  |     error       
                   ;
 
 
 price_points:           T_L_BRACE T_QUOTATIONS T_AMOUNT T_QUOTATIONS T_ASSIGNMENT T_U_FLOAT T_R_BRACE     
                   |     error
-                  ;                 //done
+                  ;                 
 
 list:                   T_QUOTATIONS T_LIST T_QUOTATIONS T_ASSIGNMENT u_int_array   {counterChecker(intArrCounter, 5);intArrCounter=0;listflag=0;}    
-                  |     error   //done     
+                  |     error        
                   ;
 
 bonus:                  T_QUOTATIONS T_BONUS T_QUOTATIONS T_ASSIGNMENT u_int_array   {counterChecker(intArrCounter, 1);intArrCounter=0;}     
-                  |     error       //done
+                  |     error       
                   ;
 
 winning_numbers:        T_L_BRACE list T_COMMA bonus  T_R_BRACE     
-                  |     error       //done
+                  |     error       
                   ;
 
-u_int_array:            T_L_BRACKET u_int_scope T_R_BRACKET    //included  
+u_int_array:            T_L_BRACKET u_int_scope T_R_BRACKET      
                   |     error
                   ;
 
 u_int_scope:            T_U_INT T_COMMA u_int_scope                     {intArrCounter++;}
                   |     T_U_INT                                         {intArrCounter++;}
-                  |     T_U_INT error u_int_scope                       //Included
+                  |     T_U_INT error u_int_scope                       
                   ;     
 
 json_string:            T_QUOTATIONS T_JSON_STRING T_QUOTATIONS
                   |     T_QUOTATIONS T_ACTIVE T_QUOTATIONS     
-                  |     error             //included
+                  |     error             
                   ;
 
 json_array:             T_L_BRACKET json_arr_scope T_R_BRACKET 
-                  |     error   //included                 
+                  |     error                   
                   ;  
 
 json_arr_scope:         json_object T_COMMA json_arr_scope
-                  |     json_object  //included
+                  |     json_object  
                   |     json_object error json_arr_scope
                   ;
 
-json_object:            T_L_BRACE json_obj_scope T_R_BRACE                    {if(prizeCatflag==0 && contentflag==1)countAllElements();if(prizeCatflag==1)prCatCntr++;if(minDistFlg!=0){printf("Unexpected amount of \"minimumDistributed\" before line: %d\n", lineno);errors++;}minDistFlg=0;}     
-                  |     error       //included              
+json_object:            T_L_BRACE json_obj_scope T_R_BRACE                    {if(prizeCatflag==0 && contentflag==1)countAllElements();if(prizeCatflag==1){prCatCntr++;prizeCatElements();}if(minDistFlg!=0){printf("Unexpected amount of \"minimumDistributed\" before line: %d\n", lineno);errors++;}minDistFlg=0;}     
+                  |     error                     
                   ;          
 
-json_obj_scope:         expr T_COMMA json_obj_scope         //included
+json_obj_scope:         expr T_COMMA json_obj_scope         
                   |     expr
                   |     expr error json_obj_scope
                   ;
 
 content_scope:          json_object T_COMMA content_scope
-                  |     json_object     //included   
+                  |     json_object        
                   |     json_object error content_scope     
                   ;
 
 content:                T_QUOTATIONS T_CONTENT T_QUOTATIONS T_ASSIGNMENT T_L_BRACKET content_scope T_R_BRACKET {contentflag=0;} 
-                  ;           //included
+                  ;           
  
 total_pages:            T_QUOTATIONS T_TOTALPAGES T_QUOTATIONS T_ASSIGNMENT T_U_INT     
-                  |     error       //done
+                  |     error       
                   ;
 
 total_elements:         T_QUOTATIONS T_TOTALELEMENTS T_QUOTATIONS T_ASSIGNMENT T_U_INT     
-                  |     error       //done
+                  |     error       
                   ;
     
 
 number_of_elements:     T_QUOTATIONS T_NUMBEROFELEMEMENTS T_QUOTATIONS T_ASSIGNMENT T_U_INT     
-                  |     error       //done
+                  |     error       
                   ;
 
 sort:                   T_QUOTATIONS T_SORT T_QUOTATIONS T_ASSIGNMENT json_array
-                  |     error       //done
+                  |     error       
                   ;          
 
-expr:                   T_QUOTATIONS T_GAMEID T_QUOTATIONS T_ASSIGNMENT T_U_INT                 {validateGameId(value);}  //included
+expr:                   T_QUOTATIONS T_GAMEID T_QUOTATIONS T_ASSIGNMENT T_U_INT                 {validateGameId(value);}  
                   |     T_QUOTATIONS T_DRAWID T_QUOTATIONS T_ASSIGNMENT T_U_INT
                   |     T_QUOTATIONS T_DRAWTIME T_QUOTATIONS T_ASSIGNMENT T_U_INT
                   |     T_QUOTATIONS T_STATUS T_QUOTATIONS T_ASSIGNMENT json_string
@@ -222,7 +224,7 @@ expr:                   T_QUOTATIONS T_GAMEID T_QUOTATIONS T_ASSIGNMENT T_U_INT 
                   |     T_QUOTATIONS T_VISUALDRAW T_QUOTATIONS T_ASSIGNMENT T_U_INT
                   |     T_QUOTATIONS T_PRICEPOINTS T_QUOTATIONS T_ASSIGNMENT price_points 
                   |     T_QUOTATIONS T_WINNINGNUMBERS T_QUOTATIONS T_ASSIGNMENT winning_numbers
-                  |     T_QUOTATIONS T_PRIZECATEGORIES T_QUOTATIONS T_ASSIGNMENT json_array           {gameCatLimit(prCatCntr);prCatCntr=0;prizeCatflag=0;}            
+                  |     T_QUOTATIONS T_PRIZECATEGORIES T_QUOTATIONS T_ASSIGNMENT json_array           {prizeCatLimit(prCatCntr);prCatCntr=0;prizeCatflag=0;}            
                   |     T_QUOTATIONS T_WAGERSTATISTICS T_QUOTATIONS T_ASSIGNMENT T_L_BRACE wager_objects T_R_BRACE
                   |     T_QUOTATIONS T_ID T_QUOTATIONS T_ASSIGNMENT T_U_INT                           {if(value < 1 || value > 9){errors++; printf("Expected a value from 1-8 got %d near line %d\n", value, lineno);} else if(value == 1) minDistFlg++;}
                   |     T_QUOTATIONS T_DIVIDENT T_QUOTATIONS T_ASSIGNMENT T_U_FLOAT
@@ -243,20 +245,24 @@ expr:                   T_QUOTATIONS T_GAMEID T_QUOTATIONS T_ASSIGNMENT T_U_INT 
                   ;
 
 first:                  T_QUOTATIONS T_FIRST T_QUOTATIONS T_ASSIGNMENT T_BOOLEAN               
-                  |     error    //done                                                        
+                  |     error                                                            
                   ;
 
 size:                   T_QUOTATIONS T_SIZE T_QUOTATIONS T_ASSIGNMENT T_U_INT             
-                  |     error    //done                                                         
+                  |     error                                                          
                   ;
 
 number:                 T_QUOTATIONS T_NUMBER T_QUOTATIONS T_ASSIGNMENT T_U_INT           
-                  |     error    //done                                                  
+                  |     error                                                   
                   ;
   
 %%
 // count # of tokens in last, active and content 
 int token_numbers[2][10]={T_GAMEID, T_DRAWID, T_DRAWTIME, T_STATUS, T_DRAWBREAK, T_VISUALDRAW, T_PRICEPOINTS, T_PRIZECATEGORIES, T_WAGERSTATISTICS, T_WINNINGNUMBERS};
+//count of elements in prizeCategories in range_result
+int prizeCatElem[2][8] = {T_ID, T_DIVIDENT, T_WINNERS, T_DISTRIBUTED, T_JACKPOT, T_FIXED, T_CATEGORYTYPE, T_GAMETYPE};
+
+
 
 void yyerror(const char *s) {
       errors++;
@@ -267,25 +273,39 @@ void validateGameId(int val){
       //if value of gameId is not invalid
       if(val!=1100 && val!=1110 && val!=2100 && val!=2101 && val!=5103 && val!=5104 && val!=5106)
             {
-                  printf("Invalid gameId: %d near line: %d\n\n", val, lineno);
+                  printf("Invalid gameId: %d near line: %d\n", val, lineno);
                   errors++;
             }
 }
 
-//validates that "gameCategory" contains 8 json objects
-void gameCatLimit(int counter){
+//validates that "prizeCategory" contains 8 json objects
+void prizeCatLimit(int counter){
       if(counter != 8 ){
             errors++;
-            printf("\n\nExpected 8 JSON objects in prizeCategories found: %d, near line: %d\n",prCatCntr,lineno);  
+            printf("Expected 8 JSON objects in prizeCategories found: %d, near line: %d\n",counter,lineno);  
       }
 
+}
+
+//counts elements in "prizeCategory"
+void prizeCatElements()
+{
+      for(int i = 0; i < 8; i++){
+            //each element must appear only once
+            if(prizeCatElem[1][i] != 1){
+                  errors++;
+                  printf("Found %d %s expected 1 before line: %d\n",prizeCatElem[1][i], yytname[YYTRANSLATE(prizeCatElem[0][i])], lineno);
+            }
+            //reset array
+            prizeCatElem[1][i]=0;
+      }
 }
 
 //integers in "list" must be in [1,45]
 void listIntegerInterval(int val){
       if(!(val >= 1 && val <= 45) ){
             errors++;
-            printf("\n\nExpected wait what an integer in [1, 45] found: %d, near line: %d\n", val, lineno);  
+            printf("Expected integer in [1, 45] found: %d, near line: %d\n", val, lineno);  
       }
 }
 
@@ -347,7 +367,7 @@ int main ( int argc, char **argv  )
       if(errors == 0)
             printf("\n\nParsing successful \n\n");
       else
-            printf("\n\nParsing failed due to %d errors \n\n", errors);
+            printf("\nParsing failed due to %d errors \n\n", errors);
 
       return 0;
 }   

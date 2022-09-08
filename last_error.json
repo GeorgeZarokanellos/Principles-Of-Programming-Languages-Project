@@ -1,6 +1,5 @@
 {
     "last": {
-        "gameId": 5104,
         "drawId": 2390,
         "drawTime": 1642363200000,
         "status": "results",
@@ -23,7 +22,6 @@
         },
         "prizeCategories": [
             {
-                "id": 1,
                 "divident": 0.0,
                 "winners": 0,
                 "distributed": 356871.53,
@@ -70,8 +68,7 @@
                 "distributed": 40800.0,
                 "jackpot": 0.0,
                 "fixed": 50.0,
-                "categoryType": 1,
-                "gameType": "Normal"
+                "categoryType": 1
             },
             {
                 "id": 6,
@@ -106,8 +103,7 @@
         ],
         "wagerStatistics": {
             "columns": 2866438,
-            "wagers": 503579,
-            "addOn": []
+            "wagers": 503579
         }
     },
     "active": {
