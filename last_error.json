@@ -120,6 +120,18 @@
         "pricePoints": {
             "amount": 0.5
         },
+        "winningNumbers": {
+            "list": [
+                1,
+                29,
+                26,
+                24,
+                17
+            ],
+            "bonus": [
+                6
+            ]
+        },
         "prizeCategories": [
             {
                 "id": 1,

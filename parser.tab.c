@@ -74,33 +74,30 @@
 #define EXIT_FAILURE    -1   
 void yyerror(const char *s);
 void gameCatLimit(int counter);
-void checkGameId(int val);
+void validateGameId(int val);
 void listIntegerCountLimit(int counter);
 void listIntegerInterval(int val);
-void lastElements();
-void activeElements();
+void countAllElements();
+void countActiveElements();
 void winningNElements();
 void bonusElements();
 void counterChecker();
 extern FILE *yyin;
 extern FILE *yyout;
 extern int yylex();
-extern int lineno;
-extern int value;
-extern int listflag;
-extern int bonusflag;
-extern int prizeCatflag;
-extern int contentflag;
-extern int token_numbers[2][10];
-int mD_Flg = 0;
-int prCatCntr=0;
-int listCntr = 0;
-int arrCntr = 0;
-int errorflg = 0;
-int genericCounter = 0;
+extern int lineno;                        //line counter
+extern int value;                         //stores the value of last read integer
+extern int listflag;                      //1 when reading a "list" 
+extern int prizeCatflag;                  //1 when reading a "prizeCategories"
+extern int contentflag;                   //1 when reading a "content"
+int token_numbers[2][10];                 //an array of tokens we expect to read in no particular order
+int minDistFlg = 0;                       //1 when reading "minimumDistributed"
+int prCatCntr=0;                          //counts json objects in "prizeCategories"
+int errors = 0;                           //counts errors encountered
+int intArrCounter = 0;                    //counts integers in an array
 
 
-#line 104 "parser.tab.c"
+#line 101 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -609,18 +606,18 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int16 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,   100,   100,   101,   102,   105,   106,   107,   111,   112,
-     113,   116,   117,   121,   122,   125,   125,   126,   127,   130,
-     131,   134,   135,   138,   139,   142,   142,   143,   147,   148,
-     151,   152,   155,   156,   159,   160,   163,   164,   167,   168,
-     169,   172,   173,   174,   177,   178,   181,   182,   183,   186,
-     187,   190,   191,   192,   195,   196,   197,   200,   203,   204,
-     207,   208,   212,   213,   216,   217,   220,   221,   222,   223,
-     224,   225,   226,   227,   228,   229,   230,   231,   232,   233,
-     234,   235,   236,   237,   238,   239,   240,   241,   242,   243,
-     244,   245,   248,   249,   252,   253,   256,   257
+       0,    97,    97,    98,    99,   102,   103,   104,   108,   109,
+     110,   113,   114,   118,   119,   122,   122,   123,   124,   127,
+     128,   131,   132,   135,   136,   139,   139,   140,   144,   145,
+     148,   149,   152,   153,   156,   157,   160,   161,   164,   165,
+     166,   169,   170,   171,   174,   175,   178,   179,   180,   183,
+     184,   187,   188,   189,   192,   193,   194,   197,   200,   201,
+     204,   205,   209,   210,   213,   214,   217,   218,   219,   220,
+     221,   222,   223,   224,   225,   226,   227,   228,   229,   230,
+     231,   232,   233,   234,   235,   236,   237,   238,   239,   240,
+     241,   242,   245,   246,   249,   250,   253,   254
 };
 #endif
 
@@ -1638,85 +1635,85 @@ yyreduce:
   switch (yyn)
     {
   case 8: /* last: "Quotations" "Last" "Quotations" "Assignment (:)" "Left Brace ({)" last_scope "Right Brace (})"  */
-#line 111 "parser.y"
-                                                                                                            {lastElements();}
-#line 1644 "parser.tab.c"
+#line 108 "parser.y"
+                                                                                                            {countAllElements();}
+#line 1641 "parser.tab.c"
     break;
 
   case 13: /* active: "Quotations" "Active" "Quotations" "Assignment (:)" "Left Brace ({)" active_scope "Right Brace (})"  */
-#line 121 "parser.y"
-                                                                                                            {activeElements();}
-#line 1650 "parser.tab.c"
+#line 118 "parser.y"
+                                                                                                            {countActiveElements();}
+#line 1647 "parser.tab.c"
     break;
 
   case 30: /* list: "Quotations" "List" "Quotations" "Assignment (:)" u_int_array  */
-#line 151 "parser.y"
-                                                                                    {counterChecker(genericCounter, 5);genericCounter=0;listflag=0;}
-#line 1656 "parser.tab.c"
+#line 148 "parser.y"
+                                                                                    {counterChecker(intArrCounter, 5);intArrCounter=0;listflag=0;}
+#line 1653 "parser.tab.c"
     break;
 
   case 32: /* bonus: "Quotations" "Bonus" "Quotations" "Assignment (:)" u_int_array  */
-#line 155 "parser.y"
-                                                                                     {counterChecker(genericCounter, 1);genericCounter=0;}
-#line 1662 "parser.tab.c"
+#line 152 "parser.y"
+                                                                                     {counterChecker(intArrCounter, 1);intArrCounter=0;}
+#line 1659 "parser.tab.c"
     break;
 
   case 38: /* u_int_scope: "Unsigned Integer" "Comma (,)" u_int_scope  */
-#line 167 "parser.y"
-                                                                        {genericCounter++;}
-#line 1668 "parser.tab.c"
+#line 164 "parser.y"
+                                                                        {intArrCounter++;}
+#line 1665 "parser.tab.c"
     break;
 
   case 39: /* u_int_scope: "Unsigned Integer"  */
-#line 168 "parser.y"
-                                                                        {genericCounter++;}
-#line 1674 "parser.tab.c"
+#line 165 "parser.y"
+                                                                        {intArrCounter++;}
+#line 1671 "parser.tab.c"
     break;
 
   case 49: /* json_object: "Left Brace ({)" json_obj_scope "Right Brace (})"  */
-#line 186 "parser.y"
-                                                                              {if(prizeCatflag==0 && contentflag==1)lastElements();if(prizeCatflag==1)prCatCntr++;}
-#line 1680 "parser.tab.c"
+#line 183 "parser.y"
+                                                                              {if(prizeCatflag==0 && contentflag==1)countAllElements();if(prizeCatflag==1)prCatCntr++;if(minDistFlg!=0){printf("Unexpected amount of \"minimumDistributed\" before line: %d\n", lineno);errors++;}minDistFlg=0;}
+#line 1677 "parser.tab.c"
     break;
 
   case 57: /* content: "Quotations" "Content" "Quotations" "Assignment (:)" "Left Bracket ([)" content_scope "Right Bracket (])"  */
-#line 200 "parser.y"
+#line 197 "parser.y"
                                                                                                                {contentflag=0;}
-#line 1686 "parser.tab.c"
+#line 1683 "parser.tab.c"
     break;
 
   case 66: /* expr: "Quotations" "GameID" "Quotations" "Assignment (:)" "Unsigned Integer"  */
-#line 220 "parser.y"
-                                                                                                {checkGameId(value);}
-#line 1692 "parser.tab.c"
+#line 217 "parser.y"
+                                                                                                {validateGameId(value);}
+#line 1689 "parser.tab.c"
     break;
 
   case 74: /* expr: "Quotations" "Prize Categories" "Quotations" "Assignment (:)" json_array  */
-#line 228 "parser.y"
-                                                                                                      {gameCatLimit(prCatCntr);prCatCntr=0;prizeCatflag=0;if(mD_Flg!=0){ printf("Expected %d minimumDistributed found %d near line: %d",mD_Flg+1, mD_Flg, lineno);errorflg=1;}}
-#line 1698 "parser.tab.c"
+#line 225 "parser.y"
+                                                                                                      {gameCatLimit(prCatCntr);prCatCntr=0;prizeCatflag=0;}
+#line 1695 "parser.tab.c"
     break;
 
   case 76: /* expr: "Quotations" "ID" "Quotations" "Assignment (:)" "Unsigned Integer"  */
-#line 230 "parser.y"
-                                                                                                      {if(value < 1 || value > 9){errorflg = 1; printf("Expected a value from 1-8 got %d near line %d", value, lineno);} else if(value == 1) mD_Flg++;}
-#line 1704 "parser.tab.c"
+#line 227 "parser.y"
+                                                                                                      {if(value < 1 || value > 9){errors++; printf("Expected a value from 1-8 got %d near line %d\n", value, lineno);} else if(value == 1) minDistFlg++;}
+#line 1701 "parser.tab.c"
     break;
 
   case 82: /* expr: "Quotations" "Category Type" "Quotations" "Assignment (:)" "Unsigned Integer"  */
-#line 236 "parser.y"
-                                                                                                      {if(value != 0 && value != 1){errorflg = 1; printf("Expected 0 or 1 got %d near line %d", value, lineno);}}
-#line 1710 "parser.tab.c"
+#line 233 "parser.y"
+                                                                                                      {if(value != 0 && value != 1){errors++; printf("Expected 0 or 1 got %d near line %d\n", value, lineno);}}
+#line 1707 "parser.tab.c"
     break;
 
   case 84: /* expr: "Quotations" "Minimum Distributed" "Quotations" "Assignment (:)" "Unsigned Float"  */
-#line 238 "parser.y"
-                                                                                                      {mD_Flg--;}
-#line 1716 "parser.tab.c"
+#line 235 "parser.y"
+                                                                                                      {minDistFlg--;}
+#line 1713 "parser.tab.c"
     break;
 
 
-#line 1720 "parser.tab.c"
+#line 1717 "parser.tab.c"
 
       default: break;
     }
@@ -1940,91 +1937,84 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 260 "parser.y"
+#line 257 "parser.y"
 
+// count # of tokens in last, active and content 
 int token_numbers[2][10]={T_GAMEID, T_DRAWID, T_DRAWTIME, T_STATUS, T_DRAWBREAK, T_VISUALDRAW, T_PRICEPOINTS, T_PRIZECATEGORIES, T_WAGERSTATISTICS, T_WINNINGNUMBERS};
 
 void yyerror(const char *s) {
-      errorflg = 1;
+      errors++;
       printf("%s line: %d\n", s, lineno);
 }									
 
-void checkGameId(int val){
-      //if value of gameId is invalid
+void validateGameId(int val){
+      //if value of gameId is not invalid
       if(val!=1100 && val!=1110 && val!=2100 && val!=2101 && val!=5103 && val!=5104 && val!=5106)
             {
                   printf("Invalid gameId: %d near line: %d\n\n", val, lineno);
-                  errorflg = 1;
+                  errors++;
             }
 }
 
+//validates that "gameCategory" contains 8 json objects
 void gameCatLimit(int counter){
       if(counter != 8 ){
-            errorflg = 1;
+            errors++;
             printf("\n\nExpected 8 JSON objects in prizeCategories found: %d, near line: %d\n",prCatCntr,lineno);  
       }
 
-      //else printf("gameCategory is OK\n");
 }
 
-void listIntegerCountLimit(int counter){
-            if(counter != 5 ){
-            errorflg = 1;
-            printf("\n\nExpected 5 integers in list found: %d, near line: %d\n",    listCntr,lineno);  
-      }
-
-      //else printf("List is OK\n");
-}
-
+//integers in "list" must be in [1,45]
 void listIntegerInterval(int val){
       if(!(val >= 1 && val <= 45) ){
-            errorflg = 1;
+            errors++;
             printf("\n\nExpected wait what an integer in [1, 45] found: %d, near line: %d\n", val, lineno);  
       }
-      //else printf("\nval: %d is ok.\n", val);
 }
 
-//checks last in last_result
-void lastElements(){
+//counts elements in "last" for last_result and in "content" for range_result
+void countAllElements(){
       for(int i=0; i<10; i++){
+            //contains each token specified in token_numbers[0][0:9] once
             if(token_numbers[1][i] != 1){
-                  errorflg = 1;
-                  printf("Found %d %s expected 1 in \"last\" before line: %d\n", token_numbers[1][i], yytname[YYTRANSLATE(token_numbers[0][i])], lineno);
+                  errors++;
+                  printf("Found %d %s expected 1 before line: %d\n", token_numbers[1][i], yytname[YYTRANSLATE(token_numbers[0][i])], lineno);
             }
             //reset array
             token_numbers[1][i]=0;
       }
 }
 
-//checks active in last_result
-void activeElements(){
+//counts elements in "active" for file last_result
+void countActiveElements(){
       for(int i=0; i<9; i++){
+            //contains each token specified in token_numbers[0][0:8] once 
             if(token_numbers[1][i] != 1){
-                  errorflg = 1;
+                  errors++;
                   printf("Found %d %s expected 1 in \"active\" before line: %d\n", token_numbers[1][i], yytname[YYTRANSLATE(token_numbers[0][i])], lineno);
-            }
-            if(token_numbers[1][10] != 0){
-                  errorflg = 1;
-                  printf("Found %d %s expected 0 in \"active\" before line: %d\n", token_numbers[1][10], yytname[YYTRANSLATE(token_numbers[0][10])], lineno);
-                  token_numbers[1][10] = 0;
             }
             //reset array
             token_numbers[1][i] = 0;
-            token_numbers[1][10] = 0;
+      }
+      //does not contain "winningNumbers"
+      if(token_numbers[1][9] != 0){
+            errors++;
+            printf("Found %d %s expected 0 in \"active\" before line: %d\n", token_numbers[1][9], yytname[YYTRANSLATE(token_numbers[0][9])], lineno);
+            //reset array
+            token_numbers[1][9] = 0;
       }
 }
 
-void bonusElements(int counter){
-      if(counter != 2) {
-            errorflg = 1;
-            printf("Found %d integers expected 1 in \"Bonus\" before line: %d\n", counter-1, lineno);
-      }
-}
-
+//validates # of entries in an array
 void counterChecker(int counter, int limit)
 {
-      if(counter != limit)
+      //counter: # integers read
+      //limit: # expected integers in an array
+      if(counter != limit){
             printf("Found %d integers expected %d before line: %d\n", counter, limit, lineno);
+            errors++;
+      }
 }
 
 int main ( int argc, char **argv  ) 
@@ -2038,14 +2028,10 @@ int main ( int argc, char **argv  )
       yyparse (); 
       fclose(yyout);
       fclose(yyin);   
-      if(errorflg == 0)
+      if(errors == 0)
             printf("\n\nParsing successful \n\n");
       else
-            printf("\n\nParsing failed due to errors \n\n");
-
-      /* for(int i=0;i<10;i++){
-            printf("%d\t", token_numbers[1][i]);
-      } */
+            printf("\n\nParsing failed due to %d errors \n\n", errors);
 
       return 0;
 }   

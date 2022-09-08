@@ -5,14 +5,13 @@
 #include <unistd.h>
 #include <math.h>
 #include <string.h>
-int token_numbers[2][10]; // counts tokens in last_scope and active_scope
-extern void listIntegerInterval(int val);  //defined in parser.y 
-int lineno = 1;                     //line counter for error recovery
-int value;                          //value of last integer read
-int listflag = 0;                   // is 1 when reading list 
-int prizeCatflag = 0;               // is 1 when reading prizeCategory
-int bonusflag = 0;
-int contentflag = 0;
+extern int token_numbers[2][10];            // counts tokens in last_scope and active_scope
+extern void listIntegerInterval(int val);   //defined in parser.y 
+int lineno = 1;                             //line counter for error recovery
+int value;                                  //value of last integer read
+int listflag = 0;                           // is 1 when reading list 
+int prizeCatflag = 0;                       // is 1 when reading prizeCategory
+int contentflag = 0;                        // is 1 when reading content
 
 %}
 
@@ -52,9 +51,9 @@ newline                     [\n]
 "visualDraw"                {token_numbers[1][5]++;return T_VISUALDRAW;}
 "pricePoints"               {token_numbers[1][6]++;return T_PRICEPOINTS;}
 "amount"                    {return T_AMOUNT;}
-"bonus"                     {bonusflag = 1; return T_BONUS;}
+"bonus"                     {return T_BONUS;}
 "prizeCategories"           {token_numbers[1][7]++;prizeCatflag=1;return T_PRIZECATEGORIES;}
-"id"                        {value = atoi(yytext);  return T_ID;}
+"id"                        {return T_ID;}
 "divident"                  {return T_DIVIDENT;}
 "winners"                   {return T_WINNERS;}
 "distributed"               {return T_DISTRIBUTED;}
@@ -91,8 +90,8 @@ newline                     [\n]
 {u_float}                   {return T_U_FLOAT;}
 {float}                     {return T_FLOAT;}
 {JSON_string}               {return T_JSON_STRING;}
-{newline}                   {lineno++;}
 {sign}                      {return T_SIGN;}
+{newline}                   {lineno++;}
 
 
 
