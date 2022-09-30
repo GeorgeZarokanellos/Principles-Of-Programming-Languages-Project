@@ -226,7 +226,7 @@ expr:                   T_QUOTATIONS T_GAMEID T_QUOTATIONS T_ASSIGNMENT T_U_INT 
                   |     T_QUOTATIONS T_WINNINGNUMBERS T_QUOTATIONS T_ASSIGNMENT winning_numbers
                   |     T_QUOTATIONS T_PRIZECATEGORIES T_QUOTATIONS T_ASSIGNMENT json_array           {prizeCatLimit(prCatCntr);prCatCntr=0;prizeCatflag=0;}            
                   |     T_QUOTATIONS T_WAGERSTATISTICS T_QUOTATIONS T_ASSIGNMENT T_L_BRACE wager_objects T_R_BRACE
-                  |     T_QUOTATIONS T_ID T_QUOTATIONS T_ASSIGNMENT T_U_INT                           {if(value < 1 || value > 9){errors++; printf("Expected a value from 1-8 got %d near line %d\n", value, lineno);} else if(value == 1) minDistFlg++;}
+                  |     T_QUOTATIONS T_ID T_QUOTATIONS T_ASSIGNMENT T_U_INT                           {if(value < 1 || value > 8){errors++; printf("Expected a value from 1-8 got %d near line %d\n", value, lineno);} else if(value == 1) minDistFlg++;}
                   |     T_QUOTATIONS T_DIVIDENT T_QUOTATIONS T_ASSIGNMENT T_U_FLOAT
                   |     T_QUOTATIONS T_WINNERS T_QUOTATIONS T_ASSIGNMENT T_U_INT
                   |     T_QUOTATIONS T_DISTRIBUTED T_QUOTATIONS T_ASSIGNMENT T_U_FLOAT
