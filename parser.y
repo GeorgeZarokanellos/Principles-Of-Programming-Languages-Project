@@ -30,7 +30,7 @@ int intArrCounter = 0;                    //counts integers in an array
 
 %}
 
-%token T_U_INT                      "Unsigned Integer"      
+%token T_U_INT                      "Unsigned Integer"      //whatever
 %token T_U_FLOAT                    "Unsigned Float"                              
 %token T_GAMEID                     "GameID"      
 %token T_FLOAT                      "Float"    
